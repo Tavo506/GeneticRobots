@@ -1,4 +1,5 @@
 from tkinter import *
+import Robot as r
 
 
 main = Tk()
@@ -9,6 +10,11 @@ main.resizable(False, False)
 
 generaciones = 500
 v = StringVar()
+
+
+"""
+Funciones|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+"""
 
 def readFile():
 	lista = []
@@ -27,21 +33,28 @@ def getColor(value):
 	if(value == 0):
 		return "#2E1700"
 	elif(value == 1):
-		return "#C78239"
+		return "#5E3000"
 	elif(value == 2):
 		return "#914A00"
 	elif(value == 3):
-		return "#5E3000"
+		return "#C78239"
 	elif(value == 4):
-		return "green"
+		return "#00FF00"
 	elif(value == 5):
-		return "red"
+		return "#FF0000"
+
+
+def toBin(n):
+	return "{0:b}".format(n)
+
+def toInt(n):
+	return int(n, 2)
 
 """
 0 = camino bloqueado
-1 = camino noraml
+1 = camino dificil
 2 = camino moderado
-3 = camino dificil
+3 = camino normal
 4 = inicio
 5 = fin
 """
@@ -157,6 +170,19 @@ def bRob6():
 
 
 """
+Fin funciones|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+
+
+
+
+
+
+
+
+
+
+
 ############################################################################################################################################################
 init components
 """
@@ -278,13 +304,17 @@ labelCamara.grid(row = 20, column = 24, rowspan = 2, columnspan=5, sticky = W)
 """
 
 
-
 matriz = readFile()
 matriz[20][1] = 4
 matriz[1][20] = 5
 listaLabels = Carga_Maze(main)
 
-
+rob1 = r.Robot(1, "010101", 2, 3)
+print(rob1.seleccion(matriz))
+print(rob1.seleccion(matriz))
+print(rob1.seleccion(matriz))
+print(rob1.seleccion(matriz))
+print(rob1.seleccion(matriz))
 
 
 

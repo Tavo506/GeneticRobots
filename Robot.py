@@ -1,10 +1,14 @@
 import random as r
+from tkinter import *
 
 class Robot:
 
-	padre = 0
-	madre = 0
+	numPadre = 0
+	numMadre = 0
+	cromPadre = "000000"
+	cromMadre = "000000"
 	generacion = 0
+	numRobot = 0
 	cromosomas = "000000"
 	motor = 1
 	bateria = 1
@@ -15,19 +19,58 @@ class Robot:
 	distancia = 0
 	pasos = 0
 	exito = 0
+	recorrido = []
 
-
-	def __init__(self, generacion, cromosomas, padre, madre):
+	def __init__(self, generacion, cromosomas, numPadre, cromPadre, numMadre, cromMadre, numRobot):
 		self.generacion = generacion
+		self.numRobot = numRobot
 		self.cromosomas = cromosomas
-		self.padre = padre
-		self.madre = madre
+		self.numPadre = numPadre
+		self.numMadre = numMadre
+		self.cromPadre = cromPadre
+		self.cromMadre = cromMadre
 
 		self.motor = self.toInt(cromosomas[0:2])
 		self.bateria = self.toInt(cromosomas[2:4])
 		self.camara = self.toInt(cromosomas[4:6])
 
 		self.nivBateria = self.bateria*1000
+		self.recorrido = []
+
+	def getNumPadre(self):
+		return self.numPadre
+
+	def getNumMadre(self):
+		return self.numMadre
+
+	def getCromPadre(self):
+		return self.cromPadre
+
+	def getCromMadre(self):
+		return self.cromMadre
+
+	def getGen(self):
+		return self.generacion
+
+	def getCrom(self):
+		return self.cromosomas
+
+	def getNum(self):
+		return self.numRobot
+
+	def getMotor(self):
+		return self.motor
+
+	def getBateria(self):
+		return self.bateria
+
+	def getCamara(self):
+		return self.camara
+
+	def getNivBateria(self):
+		return self.nivBateria
+
+
 
 
 	def setCord(self, i, j):
@@ -61,6 +104,9 @@ class Robot:
 
 	def setExito(self, exito):
 		self.exito = exito
+
+	def getExito(self):
+		return self.exito
 
 	#Marcov
 	def seleccion(self, matriz):
@@ -132,7 +178,9 @@ class Robot:
 		else:								#Izquierda
 			direccion = 3
 			self.setCord(0, -1)
+
 		self.pasos += 1
+		self.recorrido.append((self.x, self.y))
 
 
 
@@ -238,3 +286,13 @@ class Robot:
 
 	def toInt(self, n):
 		return int(n, 2)
+
+
+	def verRec(self, casillas):
+		for cord in self.recorrido:
+			casillas[cord[0]][cord[1]].config(text=" X ")
+		
+
+	def limpiarRec(self, casillas):
+		for cord in self.recorrido:
+			casillas[cord[0]][cord[1]].config(text="     ")

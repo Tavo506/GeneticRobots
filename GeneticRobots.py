@@ -7,7 +7,7 @@ import random as r
 main = Tk()
 main.configure(bg="#4A4A4F")
 main.title("Genetic Robots")
-main.geometry("800x600")
+main.geometry("800x600+500+200")
 main.resizable(False, False)
 
 v = StringVar()
@@ -97,6 +97,34 @@ def decGen():
 		entryGen.insert(0, "0")
 
 
+def verDatosRob(rob):
+	global listaLabels
+	global lastRob
+
+	datosHijo.set("Generación : " + str(rob.getGen()) + "   Número : " + rob.getNum())
+
+
+	datosPadre.set("Padre : " + rob.getNumPadre())
+	cromoPadre.set("Cromosomas : " + rob.getCromPadre())
+	
+	datosMadre.set("Madre : " + rob.getNumMadre())
+	cromoMadre.set("Cromosomas : " + rob.getCromMadre())
+
+	cromoHijo.set("Cromosomas : " + rob.getCrom())
+	bateriaHijo.set("Batería : " + str(rob.getBateria()))
+	motorHijo.set("Motor : " + str(rob.getMotor()))
+	camaraHijo.set("Cámara : " + str(rob.getCamara()))
+	exitoHijo.set("Éxito : " + str(rob.getExito()))
+
+	if(lastRob != None):
+		lastRob.limpiarRec(listaLabels)
+
+	rob.verRec(listaLabels)
+	lastRob = rob
+
+	print(rob.getX(), rob.getY(), rob.getNivBateria(), rob.getPasos())
+
+
 def bRob1():
 	botonRobot1.config(bg = "#C6FFB9")
 	botonRobot2.config(bg = "white")
@@ -107,28 +135,10 @@ def bRob1():
 
 	gen = int(entryGen.get()) - 1
 	rob = listaRobots[gen][0]
-	datosHijo.set("Generación : " + str(gen + 1) + "   Número : 1")
 
-
-	datosPadre.set("Padre : " + rob.padre)
+	verDatosRob(rob)
 	
-	if(gen+1 == 1):
-		cromoPadre.set("Cromosomas : " + "XY")
-		cromoMadre.set("Cromosomas : " + "XY")
-	else:
-		cromoPadre.set("Cromosomas : " + str(gen))
-		cromoMadre.set("Cromosomas : " + str(gen))
-	
-	datosMadre.set("Madre : " + rob.madre)
 
-	cromoHijo.set("Cromosomas : " + rob.cromosomas)
-	bateriaHijo.set("Batería : " + str(rob.motor))
-	motorHijo.set("Motor : " + str(rob.bateria))
-	camaraHijo.set("Cámara : " + str(rob.camara))
-
-	print(rob.getX(), rob.getY(), rob.nivBateria, rob.exito)
-	
-	return
 
 
 def bRob2():
@@ -141,28 +151,8 @@ def bRob2():
 
 	gen = int(entryGen.get()) - 1
 	rob = listaRobots[gen][1]
-	datosHijo.set("Generación : " + str(gen + 1) + "   Número : 1")
-
-
-	datosPadre.set("Padre : " + rob.padre)
 	
-	if(gen+1 == 1):
-		cromoPadre.set("Cromosomas : " + "XY")
-		cromoMadre.set("Cromosomas : " + "XY")
-	else:
-		cromoPadre.set("Cromosomas : " + str(gen))
-		cromoMadre.set("Cromosomas : " + str(gen))
-	
-	datosMadre.set("Madre : " + rob.madre)
-
-	cromoHijo.set("Cromosomas : " + rob.cromosomas)
-	bateriaHijo.set("Batería : " + str(rob.motor))
-	motorHijo.set("Motor : " + str(rob.bateria))
-	camaraHijo.set("Cámara : " + str(rob.camara))
-
-	print(rob.getX(), rob.getY(), rob.nivBateria, rob.exito)
-	
-	return
+	verDatosRob(rob)
 
 
 def bRob3():
@@ -175,28 +165,8 @@ def bRob3():
 
 	gen = int(entryGen.get()) - 1
 	rob = listaRobots[gen][2]
-	datosHijo.set("Generación : " + str(gen + 1) + "   Número : 1")
-
-
-	datosPadre.set("Padre : " + rob.padre)
 	
-	if(gen+1 == 1):
-		cromoPadre.set("Cromosomas : " + "XY")
-		cromoMadre.set("Cromosomas : " + "XY")
-	else:
-		cromoPadre.set("Cromosomas : " + str(gen))
-		cromoMadre.set("Cromosomas : " + str(gen))
-	
-	datosMadre.set("Madre : " + rob.madre)
-
-	cromoHijo.set("Cromosomas : " + rob.cromosomas)
-	bateriaHijo.set("Batería : " + str(rob.motor))
-	motorHijo.set("Motor : " + str(rob.bateria))
-	camaraHijo.set("Cámara : " + str(rob.camara))
-
-	print(rob.getX(), rob.getY(), rob.nivBateria, rob.exito)
-	
-	return
+	verDatosRob(rob)
 
 
 def bRob4():
@@ -209,28 +179,8 @@ def bRob4():
 
 	gen = int(entryGen.get()) - 1
 	rob = listaRobots[gen][3]
-	datosHijo.set("Generación : " + str(gen + 1) + "   Número : 1")
-
-
-	datosPadre.set("Padre : " + rob.padre)
 	
-	if(gen+1 == 1):
-		cromoPadre.set("Cromosomas : " + "XY")
-		cromoMadre.set("Cromosomas : " + "XY")
-	else:
-		cromoPadre.set("Cromosomas : " + str(gen))
-		cromoMadre.set("Cromosomas : " + str(gen))
-	
-	datosMadre.set("Madre : " + rob.madre)
-
-	cromoHijo.set("Cromosomas : " + rob.cromosomas)
-	bateriaHijo.set("Batería : " + str(rob.motor))
-	motorHijo.set("Motor : " + str(rob.bateria))
-	camaraHijo.set("Cámara : " + str(rob.camara))
-
-	print(rob.getX(), rob.getY(), rob.nivBateria, rob.exito)
-	
-	return
+	verDatosRob(rob)
 
 
 def bRob5():
@@ -243,28 +193,8 @@ def bRob5():
 
 	gen = int(entryGen.get()) - 1
 	rob = listaRobots[gen][4]
-	datosHijo.set("Generación : " + str(gen + 1) + "   Número : 1")
-
-
-	datosPadre.set("Padre : " + rob.padre)
 	
-	if(gen+1 == 1):
-		cromoPadre.set("Cromosomas : " + "XY")
-		cromoMadre.set("Cromosomas : " + "XY")
-	else:
-		cromoPadre.set("Cromosomas : " + str(gen))
-		cromoMadre.set("Cromosomas : " + str(gen))
-	
-	datosMadre.set("Madre : " + rob.madre)
-
-	cromoHijo.set("Cromosomas : " + rob.cromosomas)
-	bateriaHijo.set("Batería : " + str(rob.motor))
-	motorHijo.set("Motor : " + str(rob.bateria))
-	camaraHijo.set("Cámara : " + str(rob.camara))
-
-	print(rob.getX(), rob.getY(), rob.nivBateria, rob.exito)
-	
-	return
+	verDatosRob(rob)
 
 
 def bRob6():
@@ -277,28 +207,8 @@ def bRob6():
 
 	gen = int(entryGen.get()) - 1
 	rob = listaRobots[gen][5]
-	datosHijo.set("Generación : " + str(gen + 1) + "   Número : 1")
-
-
-	datosPadre.set("Padre : " + rob.padre)
 	
-	if(gen+1 == 1):
-		cromoPadre.set("Cromosomas : " + "XY")
-		cromoMadre.set("Cromosomas : " + "XY")
-	else:
-		cromoPadre.set("Cromosomas : " + str(gen))
-		cromoMadre.set("Cromosomas : " + str(gen))
-	
-	datosMadre.set("Madre : " + rob.madre)
-
-	cromoHijo.set("Cromosomas : " + rob.cromosomas)
-	bateriaHijo.set("Batería : " + str(rob.motor))
-	motorHijo.set("Motor : " + str(rob.bateria))
-	camaraHijo.set("Cámara : " + str(rob.camara))
-
-	print(rob.getX(), rob.getY(), rob.nivBateria, rob.exito)
-	
-	return
+	verDatosRob(rob)
 
 
 def createCrom():
@@ -439,11 +349,13 @@ cromoHijo = StringVar()
 bateriaHijo = StringVar()
 motorHijo = StringVar()
 camaraHijo = StringVar()
+exitoHijo = StringVar()
 
 cromoHijo.set("Cromosomas : ")
 bateriaHijo.set("Batería : ")
 motorHijo.set("Motor : ")
 camaraHijo.set("Cámara : ")
+exitoHijo.set("Éxito : ")
 
 
 
@@ -476,6 +388,9 @@ labelMotor.grid(row = 18, column = 24, rowspan = 2, columnspan=5, sticky = W)
 labelCamara = Label(main, textvariable = camaraHijo, font = (16), width = 14, anchor = W)
 labelCamara.grid(row = 20, column = 24, rowspan = 2, columnspan=5, sticky = W)
 
+labelCamara = Label(main, textvariable = exitoHijo, font = ("Arial", 23), width = 14, anchor = W)
+labelCamara.grid(row = 24, column = 24, rowspan = 2, columnspan=5, sticky = W)
+
 # Fin labels y datos --------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -497,17 +412,19 @@ matriz[20][1] = 4
 matriz[1][20] = 5
 listaLabels = Carga_Maze(main)
 
+lastRob = None
+
 listaRobots = []
 listaRobots.append([])
 
 generaciones = 1
 
-rob1 = Robot(generaciones, createCrom(), "Tavo B", "Tavo A")
-rob2 = Robot(generaciones, createCrom(), "Tavo B", "Tavo A")
-rob3 = Robot(generaciones, createCrom(), "Tavo B", "Tavo A")
-rob4 = Robot(generaciones, createCrom(), "Tavo B", "Tavo A")
-rob5 = Robot(generaciones, createCrom(), "Tavo B", "Tavo A")
-rob6 = Robot(generaciones, createCrom(), "Tavo B", "Tavo A")
+rob1 = Robot(generaciones, createCrom(), "Tavo B", "XY", "Tavo A", "XY", "1")
+rob2 = Robot(generaciones, createCrom(), "Tavo B", "XY", "Tavo A", "XY", "2")
+rob3 = Robot(generaciones, createCrom(), "Tavo B", "XY", "Tavo A", "XY", "3")
+rob4 = Robot(generaciones, createCrom(), "Tavo B", "XY", "Tavo A", "XY", "4")
+rob5 = Robot(generaciones, createCrom(), "Tavo B", "XY", "Tavo A", "XY", "5")
+rob6 = Robot(generaciones, createCrom(), "Tavo B", "XY", "Tavo A", "XY", "6")
 
 listaRobots[generaciones-1].append(rob1)
 listaRobots[generaciones-1].append(rob2)

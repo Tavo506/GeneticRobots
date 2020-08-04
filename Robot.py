@@ -12,6 +12,9 @@ class Robot:
 	nivBateria = 1
 	x = 20
 	y = 1
+	distancia = 0
+	pasos = 0
+	exito = 0
 
 
 	def __init__(self, generacion, cromosomas, padre, madre):
@@ -30,6 +33,34 @@ class Robot:
 	def setCord(self, i, j):
 		self.x += i
 		self.y += j
+
+
+	def getX(self):
+		return self.x
+
+
+	def getY(self):
+		return self.y
+
+
+	def setDist(self, distancia):
+		self.distancia = distancia
+
+
+	def getDist(self):
+		return self.distancia
+
+
+	def getPasos(self):
+		return self.pasos
+
+
+	def getBateriaG(self):
+		return self.bateria*1000 - self.nivBateria
+
+
+	def setExito(self, exito):
+		self.exito = exito
 
 	#Marcov
 	def seleccion(self, matriz):
@@ -66,13 +97,19 @@ class Robot:
 		#print(arriba, derecha, abajo, izquierda)
 		self.calcGastos(matriz)
 
+		if(self.nivBateria < 0):
+			return False
+
 
 		self.mover(arriba, derecha, abajo, izquierda)
+
+
+		if(self.x == 1 and self.y == 20):	#Si ya llegó a la meta
+			return False
 		
 
-		print(self.nivBateria, self.x, self.y)
-
-		
+		#print(self.nivBateria, self.x, self.y)
+	
 
 		return True
 
@@ -95,6 +132,7 @@ class Robot:
 		else:								#Izquierda
 			direccion = 3
 			self.setCord(0, -1)
+		self.pasos += 1
 
 
 

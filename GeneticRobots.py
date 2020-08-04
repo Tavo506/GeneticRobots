@@ -1,5 +1,7 @@
 from tkinter import *
-import Robot as r
+from Robot import *
+from threading import Thread
+import random as r
 
 
 main = Tk()
@@ -8,7 +10,6 @@ main.title("Genetic Robots")
 main.geometry("800x600")
 main.resizable(False, False)
 
-generaciones = 500
 v = StringVar()
 
 
@@ -104,9 +105,31 @@ def bRob1():
 	botonRobot5.config(bg = "white")
 	botonRobot6.config(bg = "white")
 
-	gen = entryGen.get()
-	datosHijo.set("Generación : " + gen + "   Número : 1")
+	gen = int(entryGen.get()) - 1
+	rob = listaRobots[gen][0]
+	datosHijo.set("Generación : " + str(gen + 1) + "   Número : 1")
+
+
+	datosPadre.set("Padre : " + rob.padre)
+	
+	if(gen+1 == 1):
+		cromoPadre.set("Cromosomas : " + "XY")
+		cromoMadre.set("Cromosomas : " + "XY")
+	else:
+		cromoPadre.set("Cromosomas : " + str(gen))
+		cromoMadre.set("Cromosomas : " + str(gen))
+	
+	datosMadre.set("Madre : " + rob.madre)
+
+	cromoHijo.set("Cromosomas : " + rob.cromosomas)
+	bateriaHijo.set("Batería : " + str(rob.motor))
+	motorHijo.set("Motor : " + str(rob.bateria))
+	camaraHijo.set("Cámara : " + str(rob.camara))
+
+	print(rob.getX(), rob.getY(), rob.nivBateria, rob.exito)
+	
 	return
+
 
 def bRob2():
 	botonRobot2.config(bg="#C6FFB9")
@@ -116,9 +139,31 @@ def bRob2():
 	botonRobot5.config(bg = "white")
 	botonRobot6.config(bg = "white")
 
-	gen = entryGen.get()
-	datosHijo.set("Generación : " + gen + "   Número : 2")
+	gen = int(entryGen.get()) - 1
+	rob = listaRobots[gen][1]
+	datosHijo.set("Generación : " + str(gen + 1) + "   Número : 1")
+
+
+	datosPadre.set("Padre : " + rob.padre)
+	
+	if(gen+1 == 1):
+		cromoPadre.set("Cromosomas : " + "XY")
+		cromoMadre.set("Cromosomas : " + "XY")
+	else:
+		cromoPadre.set("Cromosomas : " + str(gen))
+		cromoMadre.set("Cromosomas : " + str(gen))
+	
+	datosMadre.set("Madre : " + rob.madre)
+
+	cromoHijo.set("Cromosomas : " + rob.cromosomas)
+	bateriaHijo.set("Batería : " + str(rob.motor))
+	motorHijo.set("Motor : " + str(rob.bateria))
+	camaraHijo.set("Cámara : " + str(rob.camara))
+
+	print(rob.getX(), rob.getY(), rob.nivBateria, rob.exito)
+	
 	return
+
 
 def bRob3():
 	botonRobot3.config(bg="#C6FFB9")
@@ -128,9 +173,31 @@ def bRob3():
 	botonRobot5.config(bg = "white")
 	botonRobot6.config(bg = "white")
 
-	gen = entryGen.get()
-	datosHijo.set("Generación : " + gen + "   Número : 3")
+	gen = int(entryGen.get()) - 1
+	rob = listaRobots[gen][2]
+	datosHijo.set("Generación : " + str(gen + 1) + "   Número : 1")
+
+
+	datosPadre.set("Padre : " + rob.padre)
+	
+	if(gen+1 == 1):
+		cromoPadre.set("Cromosomas : " + "XY")
+		cromoMadre.set("Cromosomas : " + "XY")
+	else:
+		cromoPadre.set("Cromosomas : " + str(gen))
+		cromoMadre.set("Cromosomas : " + str(gen))
+	
+	datosMadre.set("Madre : " + rob.madre)
+
+	cromoHijo.set("Cromosomas : " + rob.cromosomas)
+	bateriaHijo.set("Batería : " + str(rob.motor))
+	motorHijo.set("Motor : " + str(rob.bateria))
+	camaraHijo.set("Cámara : " + str(rob.camara))
+
+	print(rob.getX(), rob.getY(), rob.nivBateria, rob.exito)
+	
 	return
+
 
 def bRob4():
 	botonRobot4.config(bg="#C6FFB9")
@@ -140,9 +207,31 @@ def bRob4():
 	botonRobot5.config(bg = "white")
 	botonRobot6.config(bg = "white")
 
-	gen = entryGen.get()
-	datosHijo.set("Generación : " + gen + "   Número : 4")
+	gen = int(entryGen.get()) - 1
+	rob = listaRobots[gen][3]
+	datosHijo.set("Generación : " + str(gen + 1) + "   Número : 1")
+
+
+	datosPadre.set("Padre : " + rob.padre)
+	
+	if(gen+1 == 1):
+		cromoPadre.set("Cromosomas : " + "XY")
+		cromoMadre.set("Cromosomas : " + "XY")
+	else:
+		cromoPadre.set("Cromosomas : " + str(gen))
+		cromoMadre.set("Cromosomas : " + str(gen))
+	
+	datosMadre.set("Madre : " + rob.madre)
+
+	cromoHijo.set("Cromosomas : " + rob.cromosomas)
+	bateriaHijo.set("Batería : " + str(rob.motor))
+	motorHijo.set("Motor : " + str(rob.bateria))
+	camaraHijo.set("Cámara : " + str(rob.camara))
+
+	print(rob.getX(), rob.getY(), rob.nivBateria, rob.exito)
+	
 	return
+
 
 def bRob5():
 	botonRobot5.config(bg="#C6FFB9")
@@ -152,9 +241,31 @@ def bRob5():
 	botonRobot4.config(bg = "white")
 	botonRobot6.config(bg = "white")
 
-	gen = entryGen.get()
-	datosHijo.set("Generación : " + gen + "   Número : 5")
+	gen = int(entryGen.get()) - 1
+	rob = listaRobots[gen][4]
+	datosHijo.set("Generación : " + str(gen + 1) + "   Número : 1")
+
+
+	datosPadre.set("Padre : " + rob.padre)
+	
+	if(gen+1 == 1):
+		cromoPadre.set("Cromosomas : " + "XY")
+		cromoMadre.set("Cromosomas : " + "XY")
+	else:
+		cromoPadre.set("Cromosomas : " + str(gen))
+		cromoMadre.set("Cromosomas : " + str(gen))
+	
+	datosMadre.set("Madre : " + rob.madre)
+
+	cromoHijo.set("Cromosomas : " + rob.cromosomas)
+	bateriaHijo.set("Batería : " + str(rob.motor))
+	motorHijo.set("Motor : " + str(rob.bateria))
+	camaraHijo.set("Cámara : " + str(rob.camara))
+
+	print(rob.getX(), rob.getY(), rob.nivBateria, rob.exito)
+	
 	return
+
 
 def bRob6():
 	botonRobot6.config(bg="#C6FFB9")
@@ -164,9 +275,78 @@ def bRob6():
 	botonRobot4.config(bg = "white")
 	botonRobot5.config(bg = "white")
 
-	gen = entryGen.get()
-	datosHijo.set("Generación : " + gen + "   Número : 6")
+	gen = int(entryGen.get()) - 1
+	rob = listaRobots[gen][5]
+	datosHijo.set("Generación : " + str(gen + 1) + "   Número : 1")
+
+
+	datosPadre.set("Padre : " + rob.padre)
+	
+	if(gen+1 == 1):
+		cromoPadre.set("Cromosomas : " + "XY")
+		cromoMadre.set("Cromosomas : " + "XY")
+	else:
+		cromoPadre.set("Cromosomas : " + str(gen))
+		cromoMadre.set("Cromosomas : " + str(gen))
+	
+	datosMadre.set("Madre : " + rob.madre)
+
+	cromoHijo.set("Cromosomas : " + rob.cromosomas)
+	bateriaHijo.set("Batería : " + str(rob.motor))
+	motorHijo.set("Motor : " + str(rob.bateria))
+	camaraHijo.set("Cámara : " + str(rob.camara))
+
+	print(rob.getX(), rob.getY(), rob.nivBateria, rob.exito)
+	
 	return
+
+
+def createCrom():
+	cromosomas = ""
+
+	motor = "0" + toBin(r.randint(1,3))
+	motor = motor[len(motor)-2 : len(motor)]
+
+	bateria = "0" + toBin(r.randint(1,3))
+	bateria = bateria[len(bateria)-2 : len(bateria)]
+
+	camara = "0" + toBin(r.randint(1,3))
+	camara = camara[len(camara)-2 : len(camara)]
+
+	cromosomas = motor+bateria+camara
+
+	return cromosomas
+
+
+def convergen():
+	global generaciones
+	if(generaciones > 5):
+		return True
+	return False
+
+#Pitagoras
+def distancia(x, y):
+	cat1 = (x - 1)**2
+	cat2 = (20 - y)**2
+	dist = (cat1 + cat2)**(0.5)
+	return dist
+
+
+def caminar(rob):
+	global matriz
+	puedeAndar = True
+
+	while(puedeAndar):
+		puedeAndar = rob.seleccion(matriz)
+
+	dist = distancia(rob.getX(), rob.getY())
+	pasos = rob.getPasos()
+	bateriaG = rob.getBateriaG()
+
+	exito = (dist*4 + pasos + bateriaG)/3
+	
+	rob.setExito(exito)
+
 
 
 """
@@ -304,17 +484,67 @@ labelCamara.grid(row = 20, column = 24, rowspan = 2, columnspan=5, sticky = W)
 """
 
 
+
+
+
+
+"""
+main $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+"""
+
 matriz = readFile()
 matriz[20][1] = 4
 matriz[1][20] = 5
 listaLabels = Carga_Maze(main)
 
-rob1 = r.Robot(1, "010101", 2, 3)
-print(rob1.seleccion(matriz))
-print(rob1.seleccion(matriz))
-print(rob1.seleccion(matriz))
-print(rob1.seleccion(matriz))
-print(rob1.seleccion(matriz))
+listaRobots = []
+listaRobots.append([])
+
+generaciones = 1
+
+rob1 = Robot(generaciones, createCrom(), "Tavo B", "Tavo A")
+rob2 = Robot(generaciones, createCrom(), "Tavo B", "Tavo A")
+rob3 = Robot(generaciones, createCrom(), "Tavo B", "Tavo A")
+rob4 = Robot(generaciones, createCrom(), "Tavo B", "Tavo A")
+rob5 = Robot(generaciones, createCrom(), "Tavo B", "Tavo A")
+rob6 = Robot(generaciones, createCrom(), "Tavo B", "Tavo A")
+
+listaRobots[generaciones-1].append(rob1)
+listaRobots[generaciones-1].append(rob2)
+listaRobots[generaciones-1].append(rob3)
+listaRobots[generaciones-1].append(rob4)
+listaRobots[generaciones-1].append(rob5)
+listaRobots[generaciones-1].append(rob6)
+
+
+t1 = Thread(target=caminar, args=(rob1,))
+t2 = Thread(target=caminar, args=(rob2,))
+t3 = Thread(target=caminar, args=(rob3,))
+t4 = Thread(target=caminar, args=(rob4,))
+t5 = Thread(target=caminar, args=(rob5,))
+t6 = Thread(target=caminar, args=(rob6,))
+
+
+t1.start()
+t2.start()
+t3.start()
+t4.start()
+t5.start()
+t6.start()
+
+
+t1.join()
+t2.join()
+t3.join()
+t4.join()
+t5.join()
+t6.join()
+
+
+while(not convergen()):
+	generaciones += 1
+	listaRobots.append([])
+
 
 
 

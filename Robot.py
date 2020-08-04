@@ -19,6 +19,7 @@ class Robot:
 	distancia = 0
 	pasos = 0
 	exito = 0
+	exitoNormal = 0
 	recorrido = []
 
 	def __init__(self, generacion, cromosomas, numPadre, cromPadre, numMadre, cromMadre, numRobot):
@@ -70,7 +71,14 @@ class Robot:
 	def getNivBateria(self):
 		return self.nivBateria
 
+	def getExitoNormal(self):
+		return self.exitoNormal
 
+	def setExitoNormal(self, exitoNormal):
+		self.exitoNormal = exitoNormal
+
+	def setCrom(self, cromosomas):
+		self.cromosomas = cromosomas
 
 
 	def setCord(self, i, j):
@@ -152,7 +160,7 @@ class Robot:
 
 		if(self.x == 1 and self.y == 20):	#Si ya llegó a la meta
 			return False
-		
+
 
 		#print(self.nivBateria, self.x, self.y)
 	
@@ -291,6 +299,7 @@ class Robot:
 	def verRec(self, casillas):
 		for cord in self.recorrido:
 			casillas[cord[0]][cord[1]].config(text=" X ")
+		casillas[self.x][self.y].config(text=" O ")
 		
 
 	def limpiarRec(self, casillas):

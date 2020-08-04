@@ -230,9 +230,39 @@ def createCrom():
 
 def convergen():
 	global generaciones
-	if(generaciones > 5):
+	if(generaciones > 1):
 		return True
 	return False
+
+
+def calcNormal(listaBots):
+
+	norm1 = listaBots[0].getExito()
+	norm2 = listaBots[1].getExito()
+	norm3 = listaBots[2].getExito()
+	norm4 = listaBots[3].getExito()
+	norm5 = listaBots[4].getExito()
+	norm6 = listaBots[5].getExito()
+
+	prom = (norm1 + norm2 + norm3 + norm4 + norm5 + norm6) / 6
+
+	norm1 = (norm1/prom/6)*100
+	norm2 = (norm2/prom/6)*100
+	norm3 = (norm3/prom/6)*100
+	norm4 = (norm4/prom/6)*100
+	norm5 = (norm5/prom/6)*100
+	norm6 = (norm6/prom/6)*100
+
+	listaBots[0].setExitoNormal(norm1)
+	listaBots[1].setExitoNormal(norm2)
+	listaBots[2].setExitoNormal(norm3)
+	listaBots[3].setExitoNormal(norm4)
+	listaBots[4].setExitoNormal(norm5)
+	listaBots[5].setExitoNormal(norm6)
+
+	print(norm1, norm2, norm3, norm4, norm5, norm6)
+
+
 
 #Pitagoras
 def distancia(x, y):
@@ -257,6 +287,96 @@ def caminar(rob):
 	
 	rob.setExito(exito)
 
+
+def seleccion(lista):
+	
+	norm1 = lista[0].getExitoNormal()
+	norm2 = lista[1].getExitoNormal()
+	norm3 = lista[2].getExitoNormal()
+	norm4 = lista[3].getExitoNormal()
+	norm5 = lista[4].getExitoNormal()
+	norm6 = lista[5].getExitoNormal()
+
+	listaPadres = []
+
+	for i in range(6):
+		valor = r.uniform(0, 100)
+
+		if(valor < norm1):						
+			listaPadres.append(lista[0])
+
+		elif(valor >= norm1 and valor < norm1+norm2):	
+			listaPadres.append(lista[1])
+			
+		elif(valor >= norm1+norm2 and valor < norm1+norm2+norm3):
+			listaPadres.append(lista[2])
+
+		elif(valor >= norm1+norm2+norm3 and valor < norm1+norm2+norm3+norm4):
+			listaPadres.append(lista[3])
+
+		elif(valor >= norm1+norm2+norm3+norm4 and valor < norm1+norm2+norm3+norm4+norm5):
+			listaPadres.append(lista[4])
+
+		else:								
+			listaPadres.append(lista[5])
+
+	return listaPadres
+
+
+def swap(padre, madre, val1, val2):
+	aux = padre[val1:val2]
+	padre = padre[0:val1] + madre[val1:val2] + padre[val2:6]
+	madre = madre[0:val1] + aux + madre[val2:6]
+
+	return (padre, madre)
+
+
+def change(val1, val2, bot):
+	return
+
+
+def mutar(generacion):
+	global listaRobots
+
+	val1 = r.randint(0, 6)
+	val2 = r.randint(0, 6)
+
+	if(val1 > val2):
+		aux = val1
+		val1 = val2
+		val2 = aux
+
+	for bot in listaRobots[generacion]:
+		change(val1, val2, bot)
+
+
+
+
+def cruce(listaPadres):
+	global listaRobots
+	global generaciones
+
+	for i in range(0, 5, 2):
+		val1 = r.randint(0, 6)
+		val2 = r.randint(0, 6)
+
+		if(val1 > val2):
+			aux = val1
+			val1 = val2
+			val2 = aux
+
+		padre = listaPadres[i]
+		madre = listaPadres[i+1]
+
+		Ncromosomas = swap(padre.getCrom(), madre.getCrom(), val1, val2)
+
+		rob1 = Robot(generaciones, Ncromosomas[0], padre.getNum(), padre.getCrom(), madre.getNum(), madre.getCrom(), str(i))
+		rob2 = Robot(generaciones, Ncromosomas[1], padre.getNum(), padre.getCrom(), madre.getNum(), madre.getCrom(), str(i+1))
+
+		listaRobots[generaciones-1].append(rob1)
+		listaRobots[generaciones-1].append(rob2)
+
+	mutar(generaciones-1)
 
 
 """
@@ -458,9 +578,15 @@ t5.join()
 t6.join()
 
 
+
 while(not convergen()):
 	generaciones += 1
 	listaRobots.append([])
+	
+	calcNormal(listaRobots[generaciones-2])
+
+	cruce(seleccion(listaRobots[generaciones-2]))
+	
 
 
 

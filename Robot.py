@@ -2,7 +2,7 @@ import random as r
 from tkinter import *
 
 class Robot:
-
+	muto = False
 	numPadre = 0
 	numMadre = 0
 	cromPadre = "000000"
@@ -23,6 +23,7 @@ class Robot:
 	recorrido = []
 
 	def __init__(self, generacion, cromosomas, numPadre, cromPadre, numMadre, cromMadre, numRobot):
+		self.muto = False
 		self.generacion = generacion
 		self.numRobot = numRobot
 		self.cromosomas = cromosomas
@@ -31,12 +32,15 @@ class Robot:
 		self.cromPadre = cromPadre
 		self.cromMadre = cromMadre
 
-		self.motor = self.toInt(cromosomas[0:2])
-		self.bateria = self.toInt(cromosomas[2:4])
+		self.motor = self.toInt(cromosomas[2:4])
+		self.bateria = self.toInt(cromosomas[0:2])
 		self.camara = self.toInt(cromosomas[4:6])
 
-		self.nivBateria = self.bateria*1000
+		self.nivBateria = self.bateria*750
 		self.recorrido = []
+		self.pasos = 0
+		self.exito = 0
+		self.exitoNormal = 0
 
 	def getNumPadre(self):
 		return self.numPadre
@@ -74,11 +78,21 @@ class Robot:
 	def getExitoNormal(self):
 		return self.exitoNormal
 
+	def setMuto(self):
+		self.muto = True
+
+	def getMuto(self):
+		return self.muto	
+
 	def setExitoNormal(self, exitoNormal):
 		self.exitoNormal = exitoNormal
 
 	def setCrom(self, cromosomas):
+		self.motor = self.toInt(cromosomas[2:4])
+		self.bateria = self.toInt(cromosomas[0:2])
+		self.camara = self.toInt(cromosomas[4:6])
 		self.cromosomas = cromosomas
+		self.nivBateria = self.bateria*750
 
 
 	def setCord(self, i, j):
@@ -107,7 +121,7 @@ class Robot:
 
 
 	def getBateriaG(self):
-		return self.bateria*1000 - self.nivBateria
+		return self.bateria*750 - self.nivBateria
 
 
 	def setExito(self, exito):
@@ -130,22 +144,23 @@ class Robot:
 		abajo = self.calcDown(matriz)
 		izquierda = self.calcLeft(matriz)
 
-		#print(arriba, derecha, abajo, izquierda)
+		 #if(self.motor == 1):
+			#print(arriba, derecha, abajo, izquierda, self.getX(), self.getY())
 
 		prom = (arriba + derecha + abajo + izquierda)/4
 
 
 		if(arriba != 0):
-			arriba = (arriba/prom/4)*100
+			arriba = (arriba/prom/4)*1000
 
 		if(derecha != 0):
-			derecha = (derecha/prom/4)*100
+			derecha = (derecha/prom/4)*1000
 
 		if(abajo != 0):
-			abajo = (abajo/prom/4)*100
+			abajo = (abajo/prom/4)*1000
 
 		if(izquierda != 0):
-			izquierda = (izquierda/prom/4)*100
+			izquierda = (izquierda/prom/4)*1000
 
 
 		#print(arriba, derecha, abajo, izquierda)
@@ -169,7 +184,7 @@ class Robot:
 
 
 	def mover(self, a, b, c, d):
-		valor = r.uniform(0, 100)
+		valor = r.randint(0, 1000)
 
 		if(valor < a):						#Arriba
 			direccion = 0
@@ -197,6 +212,7 @@ class Robot:
 
 
 	def calcUp(self, matriz):
+
 		valor = 0
 		cant = 1
 		for i in range(1, self.camara+1):
@@ -204,17 +220,17 @@ class Robot:
 			if(aux == 0):
 				break
 
-			if(self.motor > aux):
-				aux += 1
-
-			elif(self.motor < aux):
-				aux -= 1
+			if(self.motor == 1 and aux in (1,2) ):
+				aux /= 5
+			elif(self.motor == 2 and aux == 1 ):
+				aux /= 5
+			else:
+				aux += 2
 
 			valor += aux
 			cant = i
 
 		valor /= cant
-
 		return valor
 
 
@@ -228,11 +244,12 @@ class Robot:
 			if(aux == 0):
 				break
 
-			if(self.motor > aux):
-				aux += 1
-
-			elif(self.motor < aux):
-				aux -= 1
+			if(self.motor == 1 and aux in (1,2) ):
+				aux /= 5
+			elif(self.motor == 2 and aux == 1 ):
+				aux /= 5
+			else:
+				aux += 2
 
 			valor += aux
 			cant = i
@@ -251,11 +268,12 @@ class Robot:
 			if(aux == 0):
 				break
 
-			if(self.motor > aux):
-				aux += 1
-
-			elif(self.motor < aux):
-				aux -= 1
+			if(self.motor == 1 and aux in (1,2) ):
+				aux /= 5
+			elif(self.motor == 2 and aux == 1 ):
+				aux /= 5
+			else:
+				aux += 2
 
 			valor += aux
 			cant = i
@@ -274,11 +292,12 @@ class Robot:
 			if(aux == 0):
 				break
 
-			if(self.motor > aux):
-				aux += 1
-
-			elif(self.motor < aux):
-				aux -= 1
+			if(self.motor == 1 and aux in (1,2) ):
+				aux /= 5
+			elif(self.motor == 2 and aux == 1 ):
+				aux /= 5
+			else:
+				aux += 2
 
 			valor += aux
 			cant = i

@@ -122,7 +122,7 @@ def verDatosRob(rob):
 	rob.verRec(listaLabels)
 	lastRob = rob
 
-	print(rob.getX(), rob.getY(), rob.getNivBateria(), rob.getPasos())
+	print(rob.getX(), rob.getY(), rob.getNivBateria(), rob.getPasos(), rob.getMuto())
 
 
 def bRob1():
@@ -214,13 +214,13 @@ def bRob6():
 def createCrom():
 	cromosomas = ""
 
-	motor = "0" + toBin(r.randint(1,3))
+	motor = "0" + toBin(r.randint(1,2))
 	motor = motor[len(motor)-2 : len(motor)]
 
-	bateria = "0" + toBin(r.randint(1,3))
+	bateria = "0" + toBin(r.randint(1,2))
 	bateria = bateria[len(bateria)-2 : len(bateria)]
 
-	camara = "0" + toBin(r.randint(1,3))
+	camara = "0" + toBin(r.randint(1,2))
 	camara = camara[len(camara)-2 : len(camara)]
 
 	cromosomas = motor+bateria+camara
@@ -230,7 +230,7 @@ def createCrom():
 
 def convergen():
 	global generaciones
-	if(generaciones > 1):
+	if(generaciones > 10):
 		return True
 	return False
 
@@ -283,7 +283,7 @@ def caminar(rob):
 	pasos = rob.getPasos()
 	bateriaG = rob.getBateriaG()
 
-	exito = (dist*4 + pasos + bateriaG)/3
+	exito = (dist*4 + pasos + abs(bateriaG))/3
 	
 	rob.setExito(exito)
 
@@ -328,14 +328,46 @@ def swap(padre, madre, val1, val2):
 	padre = padre[0:val1] + madre[val1:val2] + padre[val2:6]
 	madre = madre[0:val1] + aux + madre[val2:6]
 
+	if(padre[0:2]=="00"):
+			padre = "01"+padre[2:6]
+	if(padre[2:4]=="00"):
+			padre = padre[0:2]+"01"+padre[4:6]
+	if(padre[4:6]=="00"):
+			padre = padre[0:4]+"01"
+
+	if(madre[0:2]=="00"):
+			madre = "01"+madre[2:6]
+	if(madre[2:4]=="00"):
+			madre = madre[0:2]+"01"+madre[4:6]
+	if(madre[4:6]=="00"):
+			madre = madre[0:4]+"01"
+
 	return (padre, madre)
 
 
 def change(val1, val2, bot):
-	return
+
+	cromosomas = bot.getCrom()
+	aux = cromosomas[val1:val2]
+	aux = aux.replace("0","2")
+	aux = aux.replace("1","0")
+	aux = aux.replace("2", "1")
+
+	cromosomas = cromosomas[0:val1] + aux + cromosomas[val2:6]
+	
+	#Revisa que la mutacion no haya generado un cromosoma cero, tampoco queremos que salgan con down
+	if(cromosomas[0:2]=="00"):
+			cromosomas = "01"+cromosomas[2:6]
+	if(cromosomas[2:4]=="00"):
+			cromosomas = cromosomas[0:2]+"01"+cromosomas[4:6]
+	if(cromosomas[4:6]=="00"):
+			cromosomas = cromosomas[0:4]+"01"
 
 
-def mutar(generacion):
+	return cromosomas
+
+
+def mutar(bot):
 	global listaRobots
 
 	val1 = r.randint(0, 6)
@@ -346,8 +378,7 @@ def mutar(generacion):
 		val1 = val2
 		val2 = aux
 
-	for bot in listaRobots[generacion]:
-		change(val1, val2, bot)
+	bot.setCrom(change(val1, val2, bot))
 
 
 
@@ -355,6 +386,7 @@ def mutar(generacion):
 def cruce(listaPadres):
 	global listaRobots
 	global generaciones
+	global indiceMutacion
 
 	for i in range(0, 5, 2):
 		val1 = r.randint(0, 6)
@@ -370,13 +402,45 @@ def cruce(listaPadres):
 
 		Ncromosomas = swap(padre.getCrom(), madre.getCrom(), val1, val2)
 
-		rob1 = Robot(generaciones, Ncromosomas[0], padre.getNum(), padre.getCrom(), madre.getNum(), madre.getCrom(), str(i))
-		rob2 = Robot(generaciones, Ncromosomas[1], padre.getNum(), padre.getCrom(), madre.getNum(), madre.getCrom(), str(i+1))
+		rob1 = Robot(generaciones, Ncromosomas[0], padre.getNum(), padre.getCrom(), madre.getNum(), madre.getCrom(), str(i+1))
+		rob2 = Robot(generaciones, Ncromosomas[1], padre.getNum(), padre.getCrom(), madre.getNum(), madre.getCrom(), str(i+2))
+
+		if(r.randint(0,100) <= indiceMutacion):
+			rob1.setMuto()
+			mutar(rob1)
+		if(r.randint(0,100) <= indiceMutacion):
+			rob2.setMuto()
+			mutar(rob2)
 
 		listaRobots[generaciones-1].append(rob1)
 		listaRobots[generaciones-1].append(rob2)
 
-	mutar(generaciones-1)
+
+
+
+def hilos(generaciones, listaRobots):
+	t1 = Thread(target=caminar, args=(listaRobots[generaciones-1][0],))
+	t2 = Thread(target=caminar, args=(listaRobots[generaciones-1][1],))
+	t3 = Thread(target=caminar, args=(listaRobots[generaciones-1][2],))
+	t4 = Thread(target=caminar, args=(listaRobots[generaciones-1][3],))
+	t5 = Thread(target=caminar, args=(listaRobots[generaciones-1][4],))
+	t6 = Thread(target=caminar, args=(listaRobots[generaciones-1][5],))
+
+
+	t1.start()
+	t2.start()
+	t3.start()
+	t4.start()
+	t5.start()
+	t6.start()
+
+	t1.join()
+	t2.join()
+	t3.join()
+	t4.join()
+	t5.join()
+	t6.join()
+
 
 
 """
@@ -534,6 +598,8 @@ listaLabels = Carga_Maze(main)
 
 lastRob = None
 
+indiceMutacion = 16
+
 listaRobots = []
 listaRobots.append([])
 
@@ -554,32 +620,12 @@ listaRobots[generaciones-1].append(rob5)
 listaRobots[generaciones-1].append(rob6)
 
 
-t1 = Thread(target=caminar, args=(rob1,))
-t2 = Thread(target=caminar, args=(rob2,))
-t3 = Thread(target=caminar, args=(rob3,))
-t4 = Thread(target=caminar, args=(rob4,))
-t5 = Thread(target=caminar, args=(rob5,))
-t6 = Thread(target=caminar, args=(rob6,))
 
-
-t1.start()
-t2.start()
-t3.start()
-t4.start()
-t5.start()
-t6.start()
-
-
-t1.join()
-t2.join()
-t3.join()
-t4.join()
-t5.join()
-t6.join()
 
 
 
 while(not convergen()):
+	hilos(generaciones, listaRobots)
 	generaciones += 1
 	listaRobots.append([])
 	
@@ -591,6 +637,6 @@ while(not convergen()):
 
 
 
-v.set("Generaciones: " + str(generaciones))
+v.set("Generaciones: " + str(generaciones-1))
 
 main.mainloop()

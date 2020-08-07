@@ -75,12 +75,12 @@ def Carga_Maze(main):
 def incGen():
 	try:
 		gen = int(entryGen.get())
-		if(gen < generaciones):
+		if(gen < generaciones-1):
 			entryGen.delete(0, END)
 			entryGen.insert(0, gen+1)
 		else:
 			entryGen.delete(0, END)
-			entryGen.insert(0, generaciones)
+			entryGen.insert(0, generaciones-1)
 	except:
 		entryGen.insert(0, "0")
 
@@ -90,9 +90,9 @@ def decGen():
 		if(gen > 1):
 			entryGen.delete(0, END)
 			entryGen.insert(0, gen-1)
-		if(gen > generaciones):
+		if(gen > generaciones-1):
 			entryGen.delete(0, END)
-			entryGen.insert(0, generaciones)
+			entryGen.insert(0, generaciones-1)
 	except:
 		entryGen.insert(0, "0")
 
@@ -116,13 +116,18 @@ def verDatosRob(rob):
 	camaraHijo.set("Cámara : " + str(rob.getCamara()))
 	exitoHijo.set("Éxito : " + str(rob.getExito()))
 
+	if(rob.getMuto()):
+		lableMutación.config(image = muta)
+	else:
+		lableMutación.config(image = "")
+
 	if(lastRob != None):
 		lastRob.limpiarRec(listaLabels)
 
 	rob.verRec(listaLabels)
 	lastRob = rob
 
-	print(rob.getX(), rob.getY(), rob.getNivBateria(), rob.getPasos(), rob.getMuto())
+	print("\nx =", rob.getX(), "- y =", rob.getY(), "\nbatería restante =", rob.getNivBateria(), "- pasos =", rob.getPasos(), "distancia =", distancia(rob.getX(), rob.getY()))
 
 
 def bRob1():
@@ -283,7 +288,7 @@ def caminar(rob):
 	pasos = rob.getPasos()
 	bateriaG = rob.getBateriaG()
 
-	exito = (dist*4 + pasos + abs(bateriaG))/3
+	exito = (dist*4 + pasos + bateriaG)/3
 	
 	rob.setExito(exito)
 
@@ -574,6 +579,12 @@ labelCamara.grid(row = 20, column = 24, rowspan = 2, columnspan=5, sticky = W)
 
 labelCamara = Label(main, textvariable = exitoHijo, font = ("Arial", 23), width = 14, anchor = W)
 labelCamara.grid(row = 24, column = 24, rowspan = 2, columnspan=5, sticky = W)
+
+
+muta = PhotoImage(file = "mutado.PNG")
+
+lableMutación = Label(main, image = None, bg = "#4A4A4F")
+lableMutación.grid(row = 15, column = 28, rowspan = 8, sticky = E)
 
 # Fin labels y datos --------------------------------------------------------------------------------------------------------------------------------
 

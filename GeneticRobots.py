@@ -127,7 +127,7 @@ def verDatosRob(rob):
 	rob.verRec(listaLabels)
 	lastRob = rob
 
-	print("\nx =", rob.getX(), "- y =", rob.getY(), "\nbatería restante =", rob.getNivBateria(), "- pasos =", rob.getPasos(), "distancia =", distancia(rob.getX(), rob.getY()))
+	#print("\nx =", rob.getX(), "- y =", rob.getY(), "\nbatería restante =", rob.getNivBateria(), "- pasos =", rob.getPasos(), "distancia =", distancia(rob.getX(), rob.getY()))
 
 
 def bRob1():
@@ -233,11 +233,6 @@ def createCrom():
 	return cromosomas
 
 
-def convergen():
-	global generaciones
-	if(generaciones > 10):
-		return True
-	return False
 
 
 def calcNormal(listaBots):
@@ -288,7 +283,7 @@ def caminar(rob):
 	pasos = rob.getPasos()
 	bateriaG = rob.getBateriaG()
 
-	exito = (dist*4 + pasos + bateriaG)/3
+	exito = dist + pasos + bateriaG
 	
 	rob.setExito(exito)
 
@@ -447,6 +442,23 @@ def hilos(generaciones, listaRobots):
 	t6.join()
 
 
+def convergen(gen):
+	global listaRobots
+	motores = [0, 0, 0]
+	baterias = [0, 0, 0]
+	camaras = [0, 0, 0]
+	prom = 0
+	for rob in listaRobots[gen]:
+		motores[rob.getMotor()-1] += 1
+		baterias[rob.getBateria()-1] += 1
+		camaras[rob.getCamara()-1] += 1
+		prom += rob.getExito()
+	prom = prom / 6
+	if(gen > 2 and prom >= 1500 and max(motores) >= 4 and max(baterias) >= 4 and max(camaras) >= 4):
+		print(baterias, motores, camaras, prom, gen+1)
+		return True
+	
+	return False
 
 """
 Fin funciones|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -635,15 +647,17 @@ listaRobots[generaciones-1].append(rob6)
 
 
 
-while(not convergen()):
+while(True):
+	listaRobots.append([])
 	hilos(generaciones, listaRobots)
 	generaciones += 1
-	listaRobots.append([])
 	
 	calcNormal(listaRobots[generaciones-2])
 
 	cruce(seleccion(listaRobots[generaciones-2]))
 	
+	if(convergen(generaciones-2)):
+		break
 
 
 

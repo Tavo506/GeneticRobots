@@ -41,6 +41,7 @@ class Robot:
 		self.pasos = 0
 		self.exito = 0
 		self.exitoNormal = 0
+		self.distancia = 0
 
 	def getNumPadre(self):
 		return self.numPadre
